@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حلويات النقاش - عين قشرة</title>
+    <style>
+        :root { --primary: #e67e22; --secondary: #25D366; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: #fffaf0; padding: 20px; color: #333; margin: 0; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); max-width: 450px; margin: 20px auto; border: 1px solid #eee; }
+        h2 { color: #8e44ad; margin-bottom: 5px; }
+        .price-tag { color: var(--primary); font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; }
+        .counter-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 25px 0; }
+        .btn-round { width: 45px; height: 45px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 24px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-round:active { transform: scale(0.9); }
+        #qty { font-size: 28px; font-weight: bold; min-width: 40px; }
+        .total-section { background: #f9f9f9; padding: 15px; border-radius: 12px; margin: 20px 0; border: 2px dashed #ddd; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; text-align: right; font-size: 16px; outline: none; }
+        input:focus { border-color: var(--primary); }
+        .whatsapp-btn { background: var(--secondary); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; text-decoration: none; }
+        .badge { background: #ffeaa7; color: #d35400; padding: 5px 10px; border-radius: 5px; font-size: 13px; font-weight: bold; }
+        .footer-link { color: #3498db; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>نقاش عين قشرة ✨</h2>
+        <div class="price-tag">40 دج للحبة الواحدة</div>
+        
+        <div class="counter-container">
+            <button class="btn-round" onclick="changeQty(-1)">-</button>
+            <span id="qty">1</span>
+            <button class="btn-round" onclick="changeQty(1)">+</button>
+        </div>
+
+        <div class="total-section">
+            <span style="font-size: 18px;">السعر الإجمالي:</span><br>
+            <span id="total" style="font-size: 32px; color: #c0392b; font-weight: bold;">40</span> 
+            <span style="font-weight: bold;">دج</span>
+        </div>
+
+        <input type="text" id="custName" placeholder="الاسم الكامل" required>
+        <input type="tel" id="custPhone" placeholder="رقم الهاتف" required>
+        
+        <p>📍 <span class="badge">التوصيل: عين قشرة فقط (سكيكدة)</span></p>
+
+        <button class="whatsapp-btn" onclick="sendToWhatsapp()">
+             أرسل الطلب عبر واتساب 💬
+        </button>
+        
+        <p style="font-size: 14px; margin-top: 25px; color: #666;">
+            أي استفسار؟ <a href="رابط_صفحتك_هنا" class="footer-link">تواصل معنا على الصفحة</a>
+        </p>
+    </div>
+
+    <script>
+        let count = 1;
+        const pricePerUnit = 40;
+        // رقم هاتفك المبرمج في الكود
+        const myPhoneNumber = "213773124582"; 
+
+        function changeQty(val) {
+            count += val;
+            if (count < 1) count = 1;
+            document.getElementById('qty').innerText = count;
+            document.getElementById('total').innerText = count * pricePerUnit;
+        }
+
+        function sendToWhatsapp() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const total = count * pricePerUnit;
+
+            if(!name || !phone) {
+                alert("يرجى إدخال اسمك ورقم هاتفك أولاً");
+                return;
+            }
+
+            // تجهيز نص الرسالة لواتساب
+            const message = `طلب جديد من موقع حلويات النقاش:%0A%0A` + 
+                            `*الاسم:* ${encodeURIComponent(name)}%0A` + 
+                            `*الهاتف:* ${encodeURIComponent(phone)}%0A` + 
+                            `*الكمية:* ${count} حبة%0A` + 
+                            `*الإجمالي:* ${total} دج%0A` + 
+                            `*العنوان:* عين قشرة (سكيكدة)`;
+            
+            // فتح واتساب في نافذة جديدة
+            window.open(`https://wa.me/${myPhoneNumber}?text=${message}`, '_blank');
+        }
+    </script>
+
+</body>
+</html>
